@@ -1,0 +1,80 @@
+<!-- Responsive panel example-->
+
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Activity #<%= @activity.id %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Title</dt>
+              <dd><%= @activity.title %></dd>
+
+              <dt>Location</dt>
+              <dd><%= @activity.location %></dd>
+
+              <dt>User</dt>
+              <dd><%= @activity.user.try(:username)%></dd>
+
+              <dt>Date</dt>
+              <dd><%= @activity.date %></dd>
+
+              <dt>Description</dt>
+              <dd><%= @activity.description %></dd>
+
+              <dt>Mood</dt>
+              <dd><%= @activity.mood.mood_name %></dd>
+
+            </dl>
+            <div class="btn-group btn-group-justified">
+              <a href="/activities" class="btn btn-primary">
+                <i class="fa fa-chevron-left"></i>
+              </a>
+            <% if Registration.where(user_id: current_user.id, activity_id: @activity.id).first %>
+          <a href="/registrations/new/<%= @activity.id %>" class="btn btn-info">
+                <i class="fa fa-minus"></i>
+                </a>
+          <% elsif @activity.user_id != current_user.id  %>
+             <a href="/registrations/new/<%= @activity.id %>" class="btn btn-success">
+                <i class="fa fa-plus"></i>
+              </a>
+          <% end %>
+
+              <% if @activity.user_id == current_user.id %>
+              <a href="/activities/<%= @activity.id %>/edit" class="btn btn-warning">
+                <i class="fa fa-edit"></i>
+              </a>
+
+              <a href="/delete_activity/<%= @activity.id %>" class="btn btn-danger" rel="nofollow">
+                <i class="fa fa-trash-o"></i>
+              </a>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+<li class="list-group-item list-group-item-success">
+          Event Organizer
+        </li>
+      <ul class="list-group">
+      <%= @activity.user.username%>
+      </ul>
+
+      <li class="list-group-item list-group-item-warning">
+          Event Participants
+
+      </li>
+      <ul class="list-group">
+      <% @activity.registrations.each do |registration| %>
+<%= registration.user.username %>
+<% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- End responsive panel example -->

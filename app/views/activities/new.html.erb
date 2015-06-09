@@ -1,0 +1,100 @@
+<!-- Validation failure messages -->
+
+<% if @activity.errors.any? %>
+  <% @activity.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<!-- Responsive panel example -->
+
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add Activity</h3>
+      </div>
+      <div class="panel-body">
+        <form action="/create_activity" method="post" class="form-horizontal">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <!-- Label and input for title -->
+          <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">
+              Title
+            </label>
+            <div class="col-sm-10">
+              <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @activity.title %>">
+            </div>
+          </div>
+
+          <!-- Label and input for location -->
+          <div class="form-group">
+            <label for="location" class="col-sm-2 control-label">
+              Location
+            </label>
+            <div class="col-sm-10">
+              <input type="text" id="location" name="location" placeholder="Location" class="form-control" value="<%= @activity.location %>">
+            </div>
+          </div>
+
+          <!-- Label and input for user_id -->
+          <div class="form-group">
+            <label for="user_id" class="col-sm-2 control-label">
+              User
+            </label>
+            <div class="col-sm-10">
+              <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :username, current_user.id), :class => "form-control" %>
+            </div>
+          </div>
+
+          <!-- Label and input for date -->
+          <div class="form-group">
+            <label for="date" class="col-sm-2 control-label">
+              Date
+            </label>
+            <div class="col-sm-10">
+              <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @activity.date %>">
+            </div>
+          </div>
+
+          <!-- Label and input for description -->
+          <div class="form-group">
+            <label for="description" class="col-sm-2 control-label">
+              Description
+            </label>
+            <div class="col-sm-10">
+              <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><%= @activity.description %></textarea>
+            </div>
+          </div>
+
+          <!-- Label and input for mood_id -->
+          <div class="form-group">
+            <label for="mood_id" class="col-sm-2 control-label">
+              Mood
+            </label>
+             <div class="col-sm-10">
+               <%= select_tag :mood_id, options_from_collection_for_select(Mood.order("mood_name ASC"), :id, :mood_name, @activity.mood_id), :class => "form-control" %>
+               </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button class="btn btn-success">
+                Create Activity
+              </button>
+              or
+              <a href="/activities">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End responsive panel example -->
