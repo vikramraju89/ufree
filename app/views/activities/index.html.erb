@@ -49,7 +49,8 @@
           </a>
 
           <% if Registration.where(user_id: current_user.id, activity_id: activity.id).first %>
-          <a href="/delete_registration/<%=  %>" class="btn btn-info">
+
+          <a href="/delete_registration/<%= Registration.where(user_id: current_user.id, activity_id: activity.id).first.id %>" class="btn btn-info">
                 <i class="fa fa-minus"></i>
                 </a>
           <% elsif activity.user_id != current_user.id  %>
